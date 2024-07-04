@@ -169,7 +169,7 @@ async function main() {
                     console.log(boxen(chalk.green(`
         Do the following steps:
         1. Checkout the prod branch of https://github.com/MediaMarktSaturn/webmobile-deployment-manifest
-        2. Edit the file apps/common/prod/pwa-release.yaml by changing the value of the trigger field to a different value
+        2. Edit the file https://github.com/MediaMarktSaturn/webmobile-deployment-manifest/blob/prod/apps/common/prod/pwa-release.yaml by changing the value of the trigger field to a different value
         3. Commit the change and create a PR to merge the change to the prod branch
         4. Merge the PR to the prod branch
                         `), { padding: 1 }));
@@ -197,7 +197,7 @@ async function main() {
                     console.log(boxen(chalk.green(`
         Do the following steps:
         1. Checkout the prod branch of https://github.com/MediaMarktSaturn/webmobile-deployment-manifest
-        2. Edit the file apps/common/prod/bos-release.yaml by changing the value of the trigger field to a different value
+        2. Edit the file https://github.com/MediaMarktSaturn/webmobile-deployment-manifest/blob/prod/apps/common/prod/bos-release.yaml by changing the value of the trigger field to a different value
         3. Commit the change and create a PR to merge the change to the prod branch
         4. Merge the PR to the prod branch
                         `), { padding: 1 }));
@@ -221,7 +221,7 @@ async function main() {
         1. Navigate at https://console.cloud.google.com/kubernetes/deployment/europe-west4/cluster-europe-west4/prod/bos/history?project=mms-web-webmobile-mreg-p-v002 
         2. Get from the summary column the short_sha value after the "/bos:" part. This is the latest BOS commit that was deployed to production
         3. Checkout the prod branch of https://github.com/MediaMarktSaturn/webmobile-deployment-manifest
-        4. Edit the file apps/common/prod/bos-release.yaml by 
+        4. Edit the file https://github.com/MediaMarktSaturn/webmobile-deployment-manifest/blob/prod/apps/common/prod/bos-release.yaml by 
             a. changing the value of the image version to the previous one
             b. changing the value of the releaseTag (if it exists) to the previous one. You can find the value of the previous release tag by looking at the history of the bos-release.yaml file
         5. Commit the change and create a PR to merge the change to the prod branch
