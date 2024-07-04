@@ -65,6 +65,14 @@ async function main() {
                     value: 'rollbackBOSorPWA',
                 },
                 {
+                    name: 'Rollback BOS using Manifest',
+                    value: 'rollbackBOSUsingManifest',
+                },
+                {
+                    name: 'Restart BOS in Production',
+                    value: 'RestartBOSinProd',
+                },
+                {
                     name: 'Back to main menu',
                     value: 'backToMainMenu',
                 },
@@ -87,6 +95,14 @@ async function main() {
                 {
                     name: 'Rollback PWA',
                     value: 'rollbackBOSorPWA',
+                },
+                {
+                    name: 'Rollback PWA using Manifest',
+                    value: 'rollbackPWAUsingManifest',
+                },
+                {
+                    name: 'Restart PWA in Production',
+                    value: 'RestartPWAinProd',
                 },
                 {
                     name: 'Back to main menu',
@@ -129,7 +145,7 @@ async function main() {
         4. git push origin release-bos-week${week}
         5. wait for the release workflow to complete release-bos.yml
         6. look at what the cd-bos.yaml action is doing
-        7. check the e2e tests
+        7. check the e2e tests at https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/playwright-workflow-dispatch.yml
 
         Note: The info is at: 
         https://github.com/MediaMarktSaturn/webmobile-bos?tab=readme-ov-file#how-do-we-create-a-release
@@ -144,10 +160,19 @@ async function main() {
       4. git checkout -b release-pwa-week${week}
       5. git push --set-upstream origin release-pwa-week${week}
       6. look at what the  cd-pwa.yml action is doing (It deploys to qa and prelive)  
-      7. check the e2e tests
+      7. check the e2e tests at https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/playwright-workflow-dispatch.yml
 
       Note: The info is at: https://github.com/MediaMarktSaturn/webmobile-pwa/blob/develop/docs/DEVELOPMENT_FLOW.md#how-to-create-a-release
       `), { padding: 1 }));
+                    break;
+                case 'RestartPWAinProd': 
+                    console.log(boxen(chalk.green(`
+        Do the following steps:
+        1. Checkout the prod branch of https://github.com/MediaMarktSaturn/webmobile-deployment-manifest
+        2. Edit the file apps/common/prod/pwa-release.yaml by changing the value of the trigger field to a different value
+        3. Commit the change and create a PR to merge the change to the prod branch
+        4. Merge the PR to the prod branch
+                        `), { padding: 1 }));
                     break;
                 case 'deployBOS':
                     console.log(boxen(chalk.green(`
@@ -158,15 +183,52 @@ async function main() {
             https://rkt.mediamarktsaturn.com/channel/webshop-deployment 
         3. Get the latest release tag from https://github.com/MediaMarktSaturn/webmobile-bos/tags
         4. use the deploy-bos.yml to trigger the production deployment with the release tag
-        5. Look at the grafana dashboard to see if the deployment introduced some errors
+        5. check the e2e tests at https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/playwright-workflow-dispatch.yml
+        6. Look at the grafana dashboard to see if the deployment introduced some errors
            link: https://webshop-monitoring-prod.cloud.mmst.eu/d/Asdfadsfhyn/webshop-devops?orgId=1&refresh=1m&from=now-1h&to=now-1m
-        6. If everything went well, notify at the 2 channels that the deployment was successful
-        7. create in GITHUB the release PR back to develop, ask an admin to merge WITHOUT SQUASHING with merge commit
+        7. If everything went well, notify at the 2 channels that the deployment was successful
+        8. create in GITHUB the release PR back to develop, ask an admin to merge WITHOUT SQUASHING with merge commit
 
         Note: The info is at: 
         https://github.com/MediaMarktSaturn/webmobile-bos?tab=readme-ov-file#how-do-we-create-a-release
         `), { padding: 1 }));
                     break;
+                case 'RestartBOSinProd': 
+                    console.log(boxen(chalk.green(`
+        Do the following steps:
+        1. Checkout the prod branch of https://github.com/MediaMarktSaturn/webmobile-deployment-manifest
+        2. Edit the file apps/common/prod/bos-release.yaml by changing the value of the trigger field to a different value
+        3. Commit the change and create a PR to merge the change to the prod branch
+        4. Merge the PR to the prod branch
+                        `), { padding: 1 }));
+                    break;
+                case 'rollbackPWAUsingManifest': 
+                    console.log(boxen(chalk.green(`
+        Do the following steps:
+        1. Navigate at https://console.cloud.google.com/kubernetes/deployment/europe-west4/cluster-europe-west4/prod/pwa/history?project=mms-web-webmobile-mreg-p-v002 
+        2. Get from the summary column the short_sha value after the "/pwa:" part. This is the latest PWA commit that was deployed to production
+        3. Checkout the prod branch of https://github.com/MediaMarktSaturn/webmobile-deployment-manifest
+        4. Edit the file apps/common/prod/pwa-release.yaml by 
+            a. changing the value of the image version to the previous one
+            b. changing the value of the releaseTag to the previous one. You can find the value of the previous release tag by looking at the history of the pwa-release.yaml file
+        5. Commit the change and create a PR to merge the change to the prod branch
+        6. Merge the PR to the prod branch
+                        `), { padding: 1 }));
+                    break;
+                case 'rollbackBOSUsingManifest': 
+                    console.log(boxen(chalk.green(`
+        Do the following steps:
+        1. Navigate at https://console.cloud.google.com/kubernetes/deployment/europe-west4/cluster-europe-west4/prod/bos/history?project=mms-web-webmobile-mreg-p-v002 
+        2. Get from the summary column the short_sha value after the "/bos:" part. This is the latest BOS commit that was deployed to production
+        3. Checkout the prod branch of https://github.com/MediaMarktSaturn/webmobile-deployment-manifest
+        4. Edit the file apps/common/prod/bos-release.yaml by 
+            a. changing the value of the image version to the previous one
+            b. changing the value of the releaseTag (if it exists) to the previous one. You can find the value of the previous release tag by looking at the history of the bos-release.yaml file
+        5. Commit the change and create a PR to merge the change to the prod branch
+        6. Merge the PR to the prod branch
+                        `), { padding: 1 }));
+                    break;
+                    
                 case 'deployPWA':
                     console.log(boxen(chalk.green(`
       DO:
@@ -178,9 +240,10 @@ async function main() {
       4. Notify about the deployment in the channel https://rkt.mediamarktsaturn.com/channel/webmobile-pwa and
          https://rkt.mediamarktsaturn.com/channel/webshop-deployment       
       5. Use the deploy-project.yml to trigger the production deployment with the previously copied release tag
-      6. Look at the grafana dashboard to see if the deployment introduced some errors
+      6. check the e2e tests at https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/playwright-workflow-dispatch.yml
+      7. Look at the grafana dashboard to see if the deployment introduced some errors
       link: https://webshop-monitoring-prod.cloud.mmst.eu/d/Asdfadsfhyn/webshop-devops?orgId=1&refresh=1m&from=now-1h&to=now-1m
-      7. If everything went well, notify at the 2 channels that the deployment was successful
+      8. If everything went well, notify at the 2 channels that the deployment was successful
 
       Note: The info is at: https://github.com/MediaMarktSaturn/webmobile-pwa/blob/develop/docs/DEVELOPMENT_FLOW.md#how-to-create-a-release
       `), { padding: 1 }));
@@ -192,7 +255,7 @@ async function main() {
       2. push the branch to remote git push origin hotfix-bos-v1.257.1
       3. wait for the release workflow to complete release-bos.yml
       4. follow the cd-bos.yaml
-      5. check the e2e tests
+      5. check the e2e tests at https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/playwright-workflow-dispatch.yml
       6. Now do the deployment to production according to the deployBOS steps
 
       Note: The info is at: 
