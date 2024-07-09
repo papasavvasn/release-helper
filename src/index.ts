@@ -188,6 +188,8 @@ let choices: { name: string; value: string }[] = [];
     case 'deployPWA':
       console.log(boxen(chalk.green(`
       DO:
+      0. Get the release tag from https://github.com/MediaMarktSaturn/webmobile-pwa/tags (the latest one)
+      Or alternatively do the next two steps. The first way is the preferred one
       1. Open a PR from release-pwa-week${week} to develop
       2. Get the release tag from the automatically created release commit of the PR
           For example if the commit is "chore(release): webmobile-pwa-v8.69.0" the tag is "webmobile-pwa-v8.69.0"
