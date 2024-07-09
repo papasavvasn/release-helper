@@ -144,7 +144,7 @@ let choices: { name: string; value: string }[] = [];
         4. git push origin release-bos-week${week}
         5. wait for the release workflow to complete release-bos.yml
         6. look at what the cd-bos.yaml action is doing
-        7. check the e2e tests
+        7. check the e2e test run at https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/playwright-workflow-dispatch.yml
 
         Note: The info is at: 
         https://github.com/MediaMarktSaturn/webmobile-bos?tab=readme-ov-file#how-do-we-create-a-release
@@ -160,7 +160,7 @@ let choices: { name: string; value: string }[] = [];
       4. git checkout -b release-pwa-week${week}
       5. git push --set-upstream origin release-pwa-week${week}
       6. look at what the  cd-pwa.yml action is doing (It deploys to qa and prelive)  
-      7. check the e2e tests
+      7. check the e2e test run at https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/playwright-workflow-dispatch.yml
 
       Note: The info is at: https://github.com/MediaMarktSaturn/webmobile-pwa/blob/develop/docs/DEVELOPMENT_FLOW.md#how-to-create-a-release
       `), { padding: 1 }));
@@ -177,8 +177,10 @@ let choices: { name: string; value: string }[] = [];
         4. use the deploy-bos.yml to trigger the production deployment with the release tag
         5. Look at the grafana dashboard to see if the deployment introduced some errors
            link: https://webshop-monitoring-prod.cloud.mmst.eu/d/Asdfadsfhyn/webshop-devops?orgId=1&refresh=1m&from=now-1h&to=now-1m
-        6. If everything went well, notify at the 2 channels that the deployment was successful
-        7. create in GITHUB the release PR back to develop, ask an admin to merge WITHOUT SQUASHING with merge commit
+        6. Check the GCP https://console.cloud.google.com/kubernetes/workload/overview?authuser=0&project=mms-web-webmobile-mreg-p-v002&pageState=  (%22savedViews%22:(%22i%22:%2263cfc7c0df2546cebd1a26194cb9707b%22,%22c%22:%5B%5D,%22n%22:%5B%22prod%22%5D))
+        7. check the e2e test run at https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/deploy-project.yml
+        8. If everything went well, notify at the 2 channels that the deployment was successful
+        9. create in GITHUB the release PR back to develop, ask an admin to merge WITHOUT SQUASHING with merge commit
 
         Note: The info is at: 
         https://github.com/MediaMarktSaturn/webmobile-bos?tab=readme-ov-file#how-do-we-create-a-release
@@ -189,18 +191,27 @@ let choices: { name: string; value: string }[] = [];
       console.log(boxen(chalk.green(`
       DO:
       0. Get the release tag from https://github.com/MediaMarktSaturn/webmobile-pwa/tags (the latest one)
-      Or alternatively do the next two steps. The first way is the preferred one
+        Or alternatively do the next two steps. The first way is the preferred one
+      
       1. Open a PR from release-pwa-week${week} to develop
+      
       2. Get the release tag from the automatically created release commit of the PR
           For example if the commit is "chore(release): webmobile-pwa-v8.69.0" the tag is "webmobile-pwa-v8.69.0"
-      3. Look the https://rkt.mediamarktsaturn.com/channel/webshop-deployment channel if the last 15 minutes another deployment has been announced
+      
+          3. Look the https://rkt.mediamarktsaturn.com/channel/webshop-deployment channel if the last 15 minutes another deployment has been announced
          If yes, wait for the deployment to finish (you can contact the person who triggered the deployment to ask if it's safe to deploy)
-      4. Notify about the deployment in the channel https://rkt.mediamarktsaturn.com/channel/webmobile-pwa and
+      
+         4. Notify about the deployment in the channel https://rkt.mediamarktsaturn.com/channel/webmobile-pwa and
          https://rkt.mediamarktsaturn.com/channel/webshop-deployment       
+      
       5. Use the deploy-project.yml to trigger the production deployment with the previously copied release tag
-      6. Look at the grafana dashboard to see if the deployment introduced some errors
-      link: https://webshop-monitoring-prod.cloud.mmst.eu/d/Asdfadsfhyn/webshop-devops?orgId=1&refresh=1m&from=now-1h&to=now-1m
-      7. If everything went well, notify at the 2 channels that the deployment was successful
+      
+      6. Look at the grafana dashboard to see if the deployment introduced some errors    link: https://webshop-monitoring-prod.cloud.mmst.eu/d/Asdfadsfhyn/webshop-devops?orgId=1&refresh=1m&from=now-1h&to=now-1m
+      
+      7. check the e2e test run inside the action https://github.com/MediaMarktSaturn/webmobile-pwa/actions/workflows/deploy-project.yml
+   
+      8. Check the GCP https://console.cloud.google.com/kubernetes/workload/overview?authuser=0&project=mms-web-webmobile-mreg-p-v002&pageState=(%22savedViews%22:(%22i%22:%2263cfc7c0df2546cebd1a26194cb9707b%22,%22c%22:%5B%5D,%22n%22:%5B%22prod%22%5D))
+      9. If everything went well, notify at the 2 channels that the deployment was successful
 
       Note: The info is at: https://github.com/MediaMarktSaturn/webmobile-pwa/blob/develop/docs/DEVELOPMENT_FLOW.md#how-to-create-a-release
       `), { padding: 1 }));
